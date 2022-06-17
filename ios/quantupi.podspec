@@ -5,13 +5,13 @@
 Pod::Spec.new do |s|
   s.name             = 'quantupi'
   s.version          = '0.0.1'
-  s.summary          = 'A new Flutter plugin project.'
+  s.summary          = 'UPI Integration Package'
   s.description      = <<-DESC
-A new Flutter plugin project.
+UPI Integration Package
                        DESC
-  s.homepage         = 'http://example.com'
+  s.homepage         = 'https://github.com/quantbugtechnology/quantpay.git'
   s.license          = { :file => '../LICENSE' }
-  s.author           = { 'Your Company' => 'email@example.com' }
+  s.author           = { 'Quantbug' => 'info@quantbug.in' }
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
