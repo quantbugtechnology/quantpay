@@ -1,3 +1,7 @@
+## 0.0.2
+
+* iOS Support added
+    
 ## 0.0.1
 
 * Null safety support added
