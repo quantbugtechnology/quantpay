@@ -1,16 +1,20 @@
-## 0.0.4 - 18th Jun 2022
+## 0.0.5
+
+* removed unwanted code and dependencies
+
+## 0.0.4
 
 * fixed dart sdk version
 
-## 0.0.3 - 18th Jun 2022
+## 0.0.3
 
 * fixed scoring issues for dartpad
     
-## 0.0.2 - 17th Jun 2022
+## 0.0.2
 
 * iOS Support added
     
-## 0.0.1 - 17th Jun 2022
+## 0.0.1
 
 * Null safety support added
 - Supported UPI Apps
