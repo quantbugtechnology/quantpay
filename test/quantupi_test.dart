@@ -1,34 +1,41 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:quantupi/quantupi.dart';
-import 'package:quantupi/quantupi_platform_interface.dart';
-import 'package:quantupi/quantupi_method_channel.dart';
-import 'package:plugin_platform_interface/plugin_platform_interface.dart';
-
-class MockQuantupiPlatform
-    with MockPlatformInterfaceMixin
-    implements QuantupiPlatform {
-  @override
-  Future<String?> getPlatformVersion() => Future.value('42');
-}
 
 void main() {
-  final QuantupiPlatform initialPlatform = QuantupiPlatform.instance;
+  TestWidgetsFlutterBinding.ensureInitialized();
 
-  test('$MethodChannelQuantupi is the default instance', () {
-    expect(initialPlatform, isInstanceOf<MethodChannelQuantupi>());
-  });
+  group(
+    'Connectivity',
+    () {
+      late Quantupi quantupi;
+      setUp(() async {
+        quantupi = Quantupi(
+          receiverUpiId: 'upi@test',
+          receiverName: 'Test',
+          transactionNote: 'Test',
+          amount: 1.0,
+        );
+      });
 
-  test('getPlatformVersion', () async {
-    Quantupi quantupiPlugin = Quantupi(
-      receiverUpiId: 'upi@pay',
-      receiverName: 'Tester',
-      transactionRefId: 'TestingId',
-      transactionNote: 'Not actual. Just an example.',
-      amount: 1.00,
-    );
-    MockQuantupiPlatform fakePlatform = MockQuantupiPlatform();
-    QuantupiPlatform.instance = fakePlatform;
+      test('receiverupi', () {
+        expect('upi@test', quantupi.receiverUpiId);
+      });
 
-    expect(await quantupiPlugin.getPlatformVersion(), '42');
-  });
+      test('receivername', () {
+        expect('Test', quantupi.receiverName);
+      });
+
+      test('receiverupi', () {
+        expect('upi@test', quantupi.receiverUpiId);
+      });
+
+      test('transactionnote', () {
+        expect('Test', quantupi.transactionNote);
+      });
+
+      test('transactionnote', () {
+        expect(1.0, quantupi.amount);
+      });
+    },
+  );
 }

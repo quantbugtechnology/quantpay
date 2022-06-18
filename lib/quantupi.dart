@@ -3,13 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 
-import 'quantupi_platform_interface.dart';
-
 class Quantupi {
-  Future<String?> getPlatformVersion() {
-    return QuantupiPlatform.instance.getPlatformVersion();
-  }
-
   static const MethodChannel _channel = MethodChannel('quantupi');
 
   final String receiverUpiId;
