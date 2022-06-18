@@ -52,6 +52,12 @@ class _MyAppState extends State<MyApp> {
                     });
                   });
                 },
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 30,
+                    vertical: 15,
+                  ),
+                ),
                 child: const Text(
                   "Tap to pay",
                   style: TextStyle(fontSize: 20),

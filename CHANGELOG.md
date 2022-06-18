@@ -1,3 +1,7 @@
+## 0.0.3
+
+* fixed scoring issues for dartpad
+    
 ## 0.0.2
 
 * iOS Support added
