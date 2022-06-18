@@ -43,6 +43,7 @@ class Quantupi {
       debugPrint(error);
       return 'invalid_parameters';
     });
+    print(response);
     return response;
   }
 }
