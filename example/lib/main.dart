@@ -66,9 +66,12 @@ class _MyAppState extends State<MyApp> {
               const SizedBox(
                 height: 30,
               ),
-              Text(
-                data,
-                style: const TextStyle(color: Colors.black, fontSize: 20),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Text(
+                  data,
+                  style: const TextStyle(color: Colors.black, fontSize: 20),
+                ),
               )
             ],
           ),

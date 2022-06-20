@@ -1,6 +1,6 @@
 import 'dart:async';
+import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 
 class Quantupi {
@@ -31,20 +31,100 @@ class Quantupi {
             merchantId == null);
 
   Future<String> startTransaction() async {
-    final String response = await _channel.invokeMethod('startTransaction', {
-      'receiverUpiId': receiverUpiId,
-      'receiverName': receiverName,
-      'transactionRefId': transactionRefId,
-      'transactionNote': transactionNote,
-      'amount': amount.toString(),
-      'currency': currency,
-      'merchantId': merchantId,
-    }).catchError((error) {
-      debugPrint(error);
-      return 'invalid_parameters';
-    });
-    return response;
+    try {
+      if (Platform.isAndroid) {
+        final String response =
+            await _channel.invokeMethod('startTransaction', {
+          'receiverUpiId': receiverUpiId,
+          'receiverName': receiverName,
+          'transactionRefId': transactionRefId,
+          'transactionNote': transactionNote,
+          'amount': amount.toString(),
+          'currency': currency,
+          'merchantId': merchantId,
+        });
+        return response;
+      } else if (Platform.isIOS) {
+        final result = await _channel.invokeMethod(
+          'launch',
+          {
+            'uri': transactiondetailstoString(
+              payeeAddress: receiverUpiId,
+              payeeName: receiverName,
+              transactionNote: transactionNote,
+              transactionRef: transactionRefId,
+              amount: amount,
+              currency: currency,
+              merchantId: merchantId,
+            ),
+          },
+        );
+        print(result);
+        return result == true ? "Success" : "Failure";
+      } else {
+        throw PlatformException(
+          code: 'ERROR',
+          message: 'Platform not supported!',
+        );
+      }
+    } catch (error) {
+      print(error);
+      return error.toString();
+    }
   }
+}
+
+String transactiondetailstoString({
+  String? appname,
+  required String payeeAddress,
+  required String payeeName,
+  String? transactionRef,
+  String? transactionNote,
+  required double amount,
+  String? currency = 'INR',
+  String? merchantId,
+}) {
+  String prefixuri = 'upi://pay';
+  if (appname != null) {
+    if (appname == 'amazonpay') {
+      prefixuri = 'amazonToAlipay://pay';
+    } else if (appname == 'bhimupi') {
+      prefixuri = 'upi://pay';
+    } else if (appname == 'googlepay') {
+      prefixuri = 'gpay://pay';
+    } else if (appname == 'mipay') {
+      prefixuri = 'mipay://pay';
+    } else if (appname == 'mobikwik') {
+      prefixuri = 'mobikwik://pay';
+    } else if (appname == 'myairtelupi') {
+      prefixuri = 'myairtelupi://pay';
+    } else if (appname == 'paytm') {
+      prefixuri = 'paytm://pay';
+    } else if (appname == 'phonepe') {
+      prefixuri = 'phonepe://pay';
+    } else if (appname == 'sbiupi') {
+      prefixuri = 'sbiupi://pay';
+    } else if (appname == 'truecallerupi') {
+      prefixuri = 'truecallerupi://pay';
+    } else {
+      prefixuri = 'upi://pay';
+    }
+  }
+  String uri = '$prefixuri'
+      '?pa=$payeeAddress'
+      '&pn=${Uri.encodeComponent(payeeName)}'
+      '&tr=$transactionRef'
+      '&tn=${Uri.encodeComponent(transactionNote!)}'
+      '&am=${amount.toString()}'
+      '&cu=$currency';
+  // if (url != null && url!.isNotEmpty) {
+  // uri +=
+  // '&url=${Uri.encodeComponent('com.google.android.apps.nbu.paisa.user')}';
+  // }
+  if (merchantId != null && merchantId.isNotEmpty) {
+    uri += '&mc=${Uri.encodeComponent(merchantId)}';
+  }
+  return uri;
 }
 
 class QuantupiApps {

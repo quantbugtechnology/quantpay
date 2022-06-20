@@ -1,7 +1,7 @@
 import Flutter
 import UIKit
 
-public class SwiftUpiPayPlugin: NSObject, FlutterPlugin {
+public class SwiftQuantupiPlugin: NSObject, FlutterPlugin {
   public static func register(with registrar: FlutterPluginRegistrar) {
     let channel = FlutterMethodChannel(name: "quantupi", binaryMessenger: registrar.messenger())
     let instance = SwiftQuantupiPlugin()

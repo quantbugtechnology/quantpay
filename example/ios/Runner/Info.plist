@@ -45,5 +45,21 @@
 	<false/>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>amazonpay</string>
+		<string>bhimupi</string>
+		<string>gpay</string>
+		<string>mipay</string>
+		<string>mobikwik</string>
+		<string>myairtelupi</string>
+		<string>paytm</string>
+		<string>paytmmp</string>
+		<string>phonepe</string>
+		<string>upi</string>
+		<string>upibillpay</string>
+		<string>sbiupi</string>
+		<string>whatsapp</string>
+	</array>
 </dict>
 </plist>
