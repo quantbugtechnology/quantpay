@@ -1,6 +1,6 @@
 name: quantupi
 description: Quantupi is a flutter plugin that allows users to start UPI payment apps on iOS and Android, and complete the payment.
-version: 0.0.5
+version: 0.0.6
 homepage: https://github.com/quantbugtechnology/quantpay.git
 repository: https://github.com/quantbugtechnology/quantpay.git
 
