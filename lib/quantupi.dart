@@ -14,6 +14,7 @@ class Quantupi {
   final String? currency;
   final String? url;
   final String? merchantId;
+  final QuantUPIPaymentApps? appname;
 
   Quantupi({
     required this.receiverUpiId,
@@ -24,6 +25,7 @@ class Quantupi {
     this.currency = "INR",
     this.url,
     this.merchantId,
+    this.appname,
   })  : assert(receiverUpiId.contains(RegExp(r'\w+@\w+'))),
         assert(amount >= 0 && amount.isFinite),
         assert(currency == "INR"), // For now
@@ -48,7 +50,7 @@ class Quantupi {
         final result = await _channel.invokeMethod(
           'launch',
           {
-            'uri': transactiondetailstoString(
+            'uri': transactiondetailstostring(
               payeeAddress: receiverUpiId,
               payeeName: receiverName,
               transactionNote: transactionNote,
@@ -56,11 +58,13 @@ class Quantupi {
               amount: amount,
               currency: currency,
               merchantId: merchantId,
+              appname: appname,
             ),
           },
         );
-        print(result);
-        return result == true ? "Success" : "Failure";
+        return result == true
+            ? "Successfully Launched App!"
+            : "Something went wrong!";
       } else {
         throw PlatformException(
           code: 'ERROR',
@@ -68,14 +72,13 @@ class Quantupi {
         );
       }
     } catch (error) {
-      print(error);
-      return error.toString();
+      throw Exception(error);
     }
   }
 }
 
-String transactiondetailstoString({
-  String? appname,
+String transactiondetailstostring({
+  QuantUPIPaymentApps? appname,
   required String payeeAddress,
   required String payeeName,
   String? transactionRef,
@@ -86,28 +89,24 @@ String transactiondetailstoString({
 }) {
   String prefixuri = 'upi://pay';
   if (appname != null) {
-    if (appname == 'amazonpay') {
+    if (appname == QuantUPIPaymentApps.amazonpay) {
       prefixuri = 'amazonToAlipay://pay';
-    } else if (appname == 'bhimupi') {
+    } else if (appname == QuantUPIPaymentApps.bhimupi) {
       prefixuri = 'upi://pay';
-    } else if (appname == 'googlepay') {
+    } else if (appname == QuantUPIPaymentApps.googlepay) {
       prefixuri = 'gpay://pay';
-    } else if (appname == 'mipay') {
+    } else if (appname == QuantUPIPaymentApps.mipay) {
       prefixuri = 'mipay://pay';
-    } else if (appname == 'mobikwik') {
+    } else if (appname == QuantUPIPaymentApps.mobikwik) {
       prefixuri = 'mobikwik://pay';
-    } else if (appname == 'myairtelupi') {
+    } else if (appname == QuantUPIPaymentApps.myairtelupi) {
       prefixuri = 'myairtelupi://pay';
-    } else if (appname == 'paytm') {
+    } else if (appname == QuantUPIPaymentApps.paytm) {
       prefixuri = 'paytm://pay';
-    } else if (appname == 'phonepe') {
+    } else if (appname == QuantUPIPaymentApps.phonepe) {
       prefixuri = 'phonepe://pay';
-    } else if (appname == 'sbiupi') {
+    } else if (appname == QuantUPIPaymentApps.sbiupi) {
       prefixuri = 'sbiupi://pay';
-    } else if (appname == 'truecallerupi') {
-      prefixuri = 'truecallerupi://pay';
-    } else {
-      prefixuri = 'upi://pay';
     }
   }
   String uri = '$prefixuri'
@@ -127,17 +126,16 @@ String transactiondetailstoString({
   return uri;
 }
 
-class QuantupiApps {
-  static const String amazonpay = "in.amazon.mShop.android.shopping";
-  static const String bhimupi = "in.org.npci.upiapp";
-  static const String googlepay = "com.google.android.apps.nbu.paisa.user";
-  static const String mipay = "com.mipay.wallet.in";
-  static const String mobikwik = "com.mobikwik.business";
-  static const String myairtelupi = "com.myairtelapp";
-  static const String paytm = "net.one97.paytm";
-  static const String phonepe = "com.phonepe.app";
-  static const String sbiupi = "com.sbi.upi";
-  static const String truecallerupi = "com.truecaller";
+enum QuantUPIPaymentApps {
+  amazonpay,
+  bhimupi,
+  googlepay,
+  mipay,
+  mobikwik,
+  myairtelupi,
+  paytm,
+  phonepe,
+  sbiupi,
 }
 
 class QuantupiResponse {

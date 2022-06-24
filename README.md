@@ -33,6 +33,10 @@ Package implements [UPI Deep Linking And Proximity Integration Specification]().
     - phonepe
     - sbiupi 
 
+## Big Limitation For iOS
+
+- The custom schemes mechanism has no way to return a transaction status to your calling code. The calling code can only know if a UPI payment app was launched successfully or not. Thus in iOS there is no way to know the transaction id by the app which calls for payment.
+
 ## Getting Started
 
 Add this package to your flutter project's `pubspec.yaml` as a dependency as follows:
